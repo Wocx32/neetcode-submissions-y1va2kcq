@@ -1,32 +1,29 @@
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
-        
-        wordDict = set(wordDict)
-        dp = {}
 
+        dp = {}    
         def dfs(i):
 
-            if i == len(s):
+            if i >= len(s):
                 return [""]
-
+            
             if i in dp:
                 return dp[i]
             
-
             res = []
-            for w in wordDict:
-                if (i + len(w) <= len(s) and s[i: i + len(w)] == w):
-                    
-                    strings = dfs(i + len(w))
 
-                    for substr in strings:
-                        sentence = w
-                        if substr:
-                            sentence += " " + substr
-                        res.append(sentence)
-            
+            for word in wordDict:
+                if i + len(word) <= len(s) and s[i : i + len(word)] == word:
+
+                    result = dfs(i + len(word))
+
+                    for sen in result:
+                        if not sen:
+                            res.append(word)
+                        else:
+                            res.append(word + ' ' + sen)
+                    
             dp[i] = res
-            return res
-            
-        
+            return dp[i]
+
         return dfs(0)
