@@ -3,20 +3,21 @@ class Solution:
         
         res = []
 
-
-        def backtrack(curr, added):
+        def backtrack(curr, used):
             if len(curr) == len(nums):
                 res.append(curr.copy())
                 return
             
-
             for i in range(len(nums)):
-                if not added[i]:
-                    curr.append(nums[i])
-                    added[i] = True
-                    backtrack(curr, added)
-                    curr.pop()
-                    added[i] = False
+                if used[i]:
+                    continue
+                
+                curr.append(nums[i])
+                used[i] = True
+                backtrack(curr, used)
+                used[i] = False
+                curr.pop()
+            
         
         backtrack([], [False] * len(nums))
         return res
